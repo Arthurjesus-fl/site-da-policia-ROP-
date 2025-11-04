@@ -1,0 +1,15 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    /* fundo com a imagem */
+    background-image: url("./imagem/Imagem\ do\ WhatsApp\ de\ 2025-08-25\ à\(s\)\ 19.17.00_a4aa06b3.jpg"); /* coloque o nome correto da sua imagem */
+    background-size: cover;        /* cobre toda a tela */
+    background-position: center;   /* centraliza */
+    background-repeat: no-repeat;  /* não repete */
+
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}

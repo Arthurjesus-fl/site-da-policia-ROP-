@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Corporativo - Polícia Militar SE</title>
+    <!-- 1. Nova Fonte: Inter para tipografia limpa e moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /*
+        * Layout ajustado para página de largura total (sem sidebar).
+        */
+
+        :root {
+            /* Cores */
+            --primary-color: #1e40af; /* Azul Profundo (PM) */
+            --primary-dark: #1e3a8a;
+            --secondary-bg: #f1f5f9; /* Fundo Leve */
+            --text-color-primary: #1e293b;
+            --text-color-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: white;
+            --accent-blue: #3b82f6;
+            --accent-yellow-bg: #fef3c7;
+            --accent-yellow-border: #f59e0b;
+            --accent-yellow-text: #92400e;
+            --font-primary: 'Inter', sans-serif;
+
+            /* Sombras (Mais definidas para dar profundidade) */
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+            /* Espaçamento */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 2rem;
+            /* --sidebar-width: 260px; -> Removida */
+        }
+
+        /* Estilos Globais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--secondary-bg);
+            min-height: 100vh;
+            color: var(--text-color-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column; 
+        }
+
+        /* --- Layout de Aplicação (App Shell) --- */
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            z-index: 20; 
+            position: sticky; /* Mantém o cabeçalho visível ao rolar */
+            top: 0;
+            width: 100%;
+            height: 64px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            max-width: 1400px; /* Limita a largura do conteúdo do header */
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .app-wrapper {
+            display: flex;
+            flex-direction: column; /* Conteúdo principal em coluna */
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1400px; /* Conteúdo principal limitado */
+            margin: 0 auto;
+        }
+
+        /* O main-content não precisa mais de offset ou flex-grow especial */
+        .main-content {
+            flex-grow: 1;
+            padding: var(--spacing-lg);
+            background: linear-gradient(180deg, var(--secondary-bg) 0%, #f9fafb 100%);
+        }
+
+        /* Container ajustado para o layout */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* --- Menu e Sidebar CSS removidos --- */
+        
+        /* --- Botão Hamburger (removido) --- */
+        
+        /* --- Cabeçalho e User Info --- */
+        .logo-section, .user-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .shield-icon {
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 8px; 
+            display: grid;
+            place-items: center;
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        .header-title {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .user-info > div > div:first-child {
+            font-weight: 600;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 2px solid rgba(255,255,255,0.5);
+            font-size: 1.2rem;
+        }
+
+        /* --- Seção de Boas-Vindas e Ações Rápidas (Estilos existentes mantidos) --- */
+        .welcome-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-lg); 
+            border-left: 6px solid var(--primary-color); 
+        }
+
+        .welcome-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-actions {
+            margin-bottom: var(--spacing-lg);
+            padding: var(--spacing-md);
+            background: #e0f2fe; 
+            border-radius: 12px;
+        }
+
+        /* --- Grid de Dashboard e Cards (Estilos existentes mantidos) --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            border-top: 6px solid var(--primary-color);
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .feature-item {
+            padding: var(--spacing-sm);
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-sm);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: #eff6ff;
+            border-color: var(--accent-blue);
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.1rem;
+        }
+
+        .feature-description {
+            font-size: 0.85rem;
+            color: var(--text-color-secondary);
+        }
+
+        /* --- Botões (Estilos existentes mantidos) --- */
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: var(--spacing-sm) 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            font-size: 1rem;
+            padding: var(--spacing-md) 2rem;
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-bg);
+            transform: translateY(-1px);
+        }
+        
+        .btn-logout {
+            background: transparent;
+            color: white; /* Cor branca para o botão de Sair no header */
+            box-shadow: none;
+            border: 1px solid transparent;
+            margin-left: var(--spacing-md);
+        }
+
+        .btn-logout:hover {
+            color: #d1d5db; /* Cinza claro no hover */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+        }
+
+
+        /* --- Estatísticas --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        /* --- Alerta --- */
+        .alert {
+            background: var(--accent-yellow-bg);
+            border: 1px solid var(--accent-yellow-border);
+            border-left: 6px solid var(--accent-yellow-border);
+            border-radius: 12px;
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+
+        /* Media Queries para Responsividade */
+        @media (min-width: 1024px) {
+            /* Desktop Layout - Simplificado para largura total */
+            .main-content {
+                padding: var(--spacing-lg);
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+            .user-info {
+                /* Certificar que o user info aparece no desktop */
+                display: flex;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            /* Mobile Layout - Ocupa a largura total */
+            .header-content {
+                justify-content: space-between;
+            }
+            
+            .user-info {
+                display: none; /* Ocultar info do usuário no header mobile para liberar espaço */
+            }
+            
+            .main-content {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <!-- Botão do menu (Hamburger) removido -->
+            <div class="logo-section">
+                <div class="shield-icon" role="img" aria-label="Ícone de escudo">PM</div>
+                <div>
+                    <div class="header-title">SIGOR</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Sistema Integrado de Gestão de Ocorrência</div>
+                </div>
+            </div>
+            
+            <!-- User Info visível no Desktop, escondido no Mobile (ver Media Query) -->
+            <div class="user-info" style="display: flex;">
+                <div>
+                    <div>Sgt. João Silva</div>
+                    <div style="opacity: 0.8; font-size: 0.9rem;">Mat: 12345-6</div>
+                </div>
+                <div class="user-avatar" role="img" aria-label="Avatar do usuário">👤</div>
+                <a href="index.html" class="btn btn-logout" role="button">
+                     Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-wrapper">
+        <!-- Menu lateral (sidebar) removido -->
+        
+        <div class="main-content">
+            <div class="container">
+                <div class="welcome-section" aria-labelledby="welcome-title">
+                    <h1 id="welcome-title" class="welcome-title">Painel Administrativo - Sistema ROP</h1>
+                    <p class="welcome-description">
+                        Este usuário tem perfil administrativo/operacional e acesso total ao sistema de ROP. 
+                        Utilize as funcionalidades abaixo para registrar, acompanhar e gerenciar ocorrências policiais.
+                    </p>
+                </div>
+
+                <!-- Ações Rápidas (Agora atua como a principal navegação) -->
+                <div class="quick-actions">
+                    <h3 style="font-size: 1.1rem; color: var(--primary-dark); margin-bottom: var(--spacing-md);">Ações Rápidas</h3>
+                    <div class="action-buttons">
+                        <a href=".//etapa1.html" class="btn btn-primary" role="button">
+                            ➕ Novo ROP
+                        </a>
+                        <a href="acompanhamento.html" class="btn btn-secondary" role="button">
+                            📋 Consultar ROPs
+                        </a>
+                        <a href="estatisticas.html" class="btn btn-secondary" role="button">
+                            📊 Relatórios
+                        </a>
+                        <a href="conguraçaopolicial.html" class="btn btn-secondary" role="button">
+                            ⚙️ Configurações
+                        </a>
+                    </div>
+                </div>
+
+                <main>
+                    <div class="dashboard-grid">
+                        <section class="section-card">
+                            <h2 class="section-title">
+                                <span class="section-icon">1</span>
+                                Etapa 1 — Dados do Fato
+                            </h2>
+                            <ul class="feature-list" style="list-style: none;">
+                                <li class="feature-item">
+                                    <div class="feature-title">Tipo do ROP</div>
+                                    <div class="feature-description">Classificação da ocorrência policial</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Evento/Operação</div>
+                                    <div class="feature-description">Descrição do tipo de evento registrado</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Número de Atendimento</div>
+                                    <div class="feature-description">Identificação única do chamado</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Local Detalhado</div>
+                                    <div class="feature-description">Cidade, bairro, logradouro, nº, referência</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Data e Hora</div>
+                                    <div class="feature-description">Validação: não pode ser futuro</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Elementos Presentes</div>
+                                    <div class="feature-description">Envolvidos, armas, munições, drogas, dinheiro, objetos, veículos</div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="section-card">
+                            <h2 class="section-title">
+                                <span class="section-icon">2</span>
+                                Etapa 2 — Detalhes do ROP
+                            </h2>
+                            <ul class="feature-list" style="list-style: none;">
+                                <li class="feature-item">
+                                    <div class="feature-title">Envolvidos (CRUD Completo)</div>
+                                    <div class="feature-description">Autor, vítima, testemunha, abordado, etc. com CPF, RG, endereço, características físicas</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Armas de Fogo</div>
+                                    <div class="feature-description">Tipo, calibre, número de série</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Munições</div>
+                                    <div class="feature-description">Tipo, quantidade, informações da apreensão</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Drogas</div>
+                                    <div class="feature-description">Tipo, quantidade, embalagem, apresentação</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Dinheiro</div>
+                                    <div class="feature-description">Valor total e observações</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Objetos e Veículos</div>
+                                    <div class="feature-description">Descrição, marca/modelo, situação, placa, chassi, cor</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Policiais Envolvidos</div>
+                                    <div class="feature-description">Matrícula, nome, função</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Histórico/Narrativa Técnica</div>
+                                    <div class="feature-description">Relato detalhado da ocorrência</div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="section-card">
+                            <h2 class="section-title">
+                                <span class="section-icon">3</span>
+                                Etapa 3 — Revisão e Finalização
+                            </h2>
+                            <ul class="feature-list" style="list-style: none;">
+                                <li class="feature-item">
+                                    <div class="feature-title">Resumo Preenchido</div>
+                                    <div class="feature-description">Visualização de todos os dados inseridos</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Destinatário Final</div>
+                                    <div class="feature-description">Delegacia/batalhão responsável</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Confirmação de Termos</div>
+                                    <div class="feature-description">Aceite das condições e responsabilidades</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Geração de Protocolo/ID</div>
+                                    <div class="feature-description">Número único para acompanhamento</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Trava de Edição</div>
+                                    <div class="feature-description">Versionamento do documento</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">PDF Oficial do ROP</div>
+                                    <div class="feature-description">Geração do documento oficial</div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="section-card">
+                            <h2 class="section-title">
+                                <span class="section-icon" aria-label="Ícone de gráfico de barras">📊</span>
+                                Gestão Interna
+                            </h2>
+                            <ul class="feature-list" style="list-style: none;">
+                                <li class="feature-item">
+                                    <div class="feature-title">Histórico de Auditoria</div>
+                                    <div class="feature-description">Quem editou o quê e quando</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Comentários Internos</div>
+                                    <div class="feature-description">Comunicação entre equipes</div>
+                                </li>
+                                <li class="feature-item">
+                                    <div class="feature-title">Painel de Estatísticas</div>
+                                    <div class="feature-description">Quantidade de ocorrências, tipos mais comuns, etc.</div>
+                                </li>
+                            </ul>
+
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-number">247</div>
+                                    <div class="stat-label">ROPs este mês</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">18</div>
+                                    <div class="stat-label">Pendentes</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-number">95%</div>
+                                    <div class="stat-label">Finalizados</div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </main>
+                
+                <div class="alert">
+                    <div class="alert-icon" role="img" aria-label="Ícone de alerta de segurança">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">Sistema de Segurança Ativo</div>
+                        <div class="alert-text">
+                            Este sistema possui autenticação segura com usuário institucional + matrícula. 
+                            Todas as ações são registradas para auditoria e controle interno.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // O JavaScript para o menu lateral foi removido, 
+        // pois a navegação agora é feita apenas pelos links do cabeçalho e pelo bloco de Ações Rápidas.
+    </script>
+</body>
+</html>

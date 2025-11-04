@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abertura de Ocorrência</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 flex items-center justify-center min-h-screen p-4 sm:p-6">
+  
+  <main class="w-full max-w-2xl bg-white rounded-xl shadow-lg overflow-hidden border border-slate-200">
+
+    <!-- Header Section -->
+    <header class="bg-blue-600 p-6 sm:p-8 text-white">
+      <div class="flex items-center space-x-4">
+        <div class="flex-shrink-0 text-3xl">📝</div>
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold">Abertura de Ocorrência</h1>
+          <p class="text-sm sm:text-base opacity-90 mt-1">Registrar denúncia ou relato inicial</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Form Section -->
+    <section class="p-6 sm:p-8">
+      <div class="space-y-6">
+        
+        <!-- Occurrence Form Card -->
+        <div class="bg-white rounded-lg p-6 sm:p-8 border border-slate-200 shadow-md">
+          <h3 class="text-xl font-semibold text-slate-900 mb-4">Formulário de Ocorrência</h3>
+          
+          <div class="space-y-5">
+            <div>
+              <label for="occurrence-type" class="block text-sm font-medium text-slate-700">Tipo da Ocorrência:</label>
+              <select id="occurrence-type" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-2">
+                <option value="">Selecione</option>
+                <option>Furto</option>
+                <option>Desaparecimento</option>
+                <option>Perturbação</option>
+                <option>Outro</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="location" class="block text-sm font-medium text-slate-700">Local do Fato:</label>
+              <input type="text" id="location" placeholder="Cidade, bairro, endereço" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-2">
+            </div>
+
+            <div>
+              <label for="datetime" class="block text-sm font-medium text-slate-700">Data e Hora:</label>
+              <input type="datetime-local" id="datetime" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-2">
+            </div>
+
+            <div>
+              <label for="description" class="block text-sm font-medium text-slate-700">Descrição Detalhada:</label>
+              <textarea id="description" rows="4" placeholder="Digite os detalhes do ocorrido..." class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm p-2"></textarea>
+            </div>
+
+            <div>
+              <label for="files" class="block text-sm font-medium text-slate-700">Upload de Arquivos:</label>
+              <input type="file" id="files" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-sm">
+            </div>
+
+            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-200 ease-in-out shadow-md hover:shadow-lg">
+              Registrar Ocorrência
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer link -->
+    <div class="p-6 pt-0">
+      <a href="./portal-cidade.html" class="inline-block text-blue-600 font-medium hover:underline text-sm">
+        ⬅ Voltar ao Portal
+      </a>
+    </div>
+
+  </main>
+</body>
+</html>

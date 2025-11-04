@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de Ocorrência - Etapa 3</title>
+  <!-- Script para geração de PDF - Necessário para a função gerarPDF() -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilos personalizados com fallback de Tailwind para melhor visual */
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s ease;
+      background-color: #f1f1f1;
+    }
+    /* Estilo para a aba ATIVA (Etapa 3) */
+    .tab:nth-child(3) {
+      background-color: #004d99; /* Novo Azul Marinho */
+      color: #fff;
+      border-bottom: 2px solid #004d99; /* Novo Azul Marinho */
+    }
+    .campo {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .descricao {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-top: -0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    input[type="text"], input[type="datetime-local"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #004d99; /* Novo Azul Marinho */
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .button-group {
+      display: flex;
+      justify-content: flex-start; /* Alinhamento à esquerda para ter apenas o botão Voltar */
+      margin-top: 2rem;
+    }
+    .nav-button {
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+      cursor: pointer;
+      text-align: center;
+      margin-right: 10px; /* Espaço entre botões, se houvesse mais de um */
+    }
+    .back-button {
+      background-color: #6c757d;
+      color: #fff;
+    }
+    .action-button {
+        background-color: #009933; /* Novo Action Green */
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+        cursor: pointer;
+        border: none;
+    }
+    .action-button:hover {
+        background-color: #007a2a; /* Novo Action Hover Green */
+    }
+    .rodape {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      color: #999;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-5">
+
+  <div class="container bg-white p-6 md:p-10 rounded-xl shadow-2xl" id="relatorio">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-3">Relatório de Ocorrência Policial (ROP)</h1>
+
+    <div class="tabs">
+      <a href="./etapa1.html" class="tab">1. Informações Básicas</a>
+      <a href="./etapa2.html" class="tab">2. Elementos e Narrativa</a>
+      <div class="tab">3. Finalização</div>
+    </div>
+
+    <div class="content">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Etapa 3: Validação e Documentação</h2>
+
+      <!-- Campos da Etapa 3 -->
+      <div class="campo">
+        <label for="assinatura">Assinatura Digital</label>
+        <p class="descricao">Confirmação de que todas as informações são verdadeiras.</p>
+        <input type="text" id="assinatura" placeholder="Ex: Assinado por: Cmt. Fulano - Mat. XXXXX">
+      </div>
+
+      <div class="campo">
+        <label for="protocolo">Geração de Protocolo/ID</label>
+        <p class="descricao">Número único para acompanhamento</p>
+        <input type="text" id="protocolo" placeholder="Ex: ROP-2025-000789">
+      </div>
+
+      <div class="campo">
+        <label for="trava">Trava de Edição</label>
+        <p class="descricao">Versionamento do documento</p>
+        <input type="text" id="trava" placeholder="Ex: Bloqueio após validação (simulado)">
+      </div>
+
+      <div class="campo">
+        <label for="pdf">PDF Oficial do ROP</label>
+        <p class="descricao">Geração do documento oficial</p>
+        <!-- A função gerarPDF() simula a ação, mas o html2pdf precisa de todos os dados do formulário -->
+        <button onclick="gerarPDF()" class="action-button">Gerar PDF (Simulação)</button>
+      </div>
+
+      <!-- Botões de Navegação -->
+      <div class="button-group">
+        <a href="./etapa2.html" class="nav-button back-button">Voltar para Etapa 2</a>
+      </div>
+    </div>
+
+    <div class="rodape">
+      <p>Relatório de Ocorrência Policial — Sistema Integrado</p>
+    </div>
+  </div>
+
+  <script>
+    // A função gerarPDF precisa de um elemento com id="relatorio" para funcionar.
+    // Como estamos em arquivos separados, a função aqui apenas simula a ação.
+    // Em um sistema real, todos os dados seriam coletados antes de gerar o PDF.
+    function gerarPDF() {
+      const elemento = document.getElementById("relatorio");
+      const options = {
+        margin: 10,
+        filename: 'ROP_Protocolo.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Simulação: Apenas para demonstrar a chamada da função
+      alert("Gerando PDF... (A funcionalidade completa requer a coleta de dados de todas as etapas.)");
+      
+      // Chamada real do html2pdf, se fosse necessário
+      // html2pdf().from(elemento).set(options).save();
+    }
+  </script>
+
+</body>
+</html>

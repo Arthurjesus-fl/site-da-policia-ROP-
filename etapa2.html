@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de Ocorrência - Etapa 2: Detalhamento</title>
+  <!-- Script para geração de PDF - Mantido por consistência -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilos personalizados com fallback de Tailwind para melhor visual */
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      font-weight: 600;
+      color: #555;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s ease;
+      background-color: #f1f1f1;
+    }
+    .tab a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    /* Estilo para a aba ATIVA (Etapa 2) */
+    .tab.active {
+      background-color: #004d99; /* Azul Marinho */
+      color: #fff;
+      border-bottom: 2px solid #004d99; /* Azul Marinho */
+    }
+    .campo {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .descricao {
+      font-size: 0.875rem;
+      color: #6c757d;
+      margin-top: -0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    input[type="text"], input[type="number"], input[type="datetime-local"], textarea, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #004d99; /* Azul Marinho */
+      outline: none;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    .nav-button {
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+      cursor: pointer;
+      text-align: center;
+    }
+    .back-button {
+      background-color: #6c757d;
+      color: #fff;
+    }
+    .next-button {
+      background-color: #004d99; /* Azul Marinho */
+      color: #fff;
+    }
+    .rodape {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      color: #999;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-5">
+
+  <div class="container bg-white p-6 md:p-10 rounded-xl shadow-2xl" id="relatorio">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-3">Relatório de Ocorrência Policial (ROP)</h1>
+
+    <div class="tabs">
+      <!-- Aba 1 inativa, link para voltar -->
+      <a href="etapa1.html" class="tab">1. Informações Básicas</a>
+      <!-- Aba 2 ativa -->
+      <div class="tab active">2. Elementos e Narrativa</div>
+      <!-- Aba 3 inativa, link para avançar -->
+      <a href="etapa3.html" class="tab">3. Finalização</a>
+    </div>
+
+    <div class="content">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Etapa 2: Detalhamento e Histórico</h2>
+
+      <!-- Campos da Etapa 2 convertidos para Select/Input -->
+      <div class="campo">
+        <label for="tipo_arma">Tipo de Arma Apreendida</label>
+        <p class="descricao">Classificação da arma, se houver apreensão</p>
+        <select id="tipo_arma">
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option value="pistola">Pistola</option>
+            <option value="revolver">Revólver</option>
+            <option value="fuzil">Fuzil/Carabina</option>
+            <option value="branca">Arma Branca (Faca, etc.)</option>
+            <option value="nao_apreendida">Nenhuma Arma Apreendida</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="detalhes_armas">Detalhes/Série/Calibre da Arma</label>
+        <p class="descricao">Número de série, calibre, marca, modelo</p>
+        <input type="text" id="detalhes_armas" placeholder="Ex: Calibre .40, Taurus, nº ABC1234">
+      </div>
+
+      <div class="campo">
+        <label for="tipo_droga">Tipo de Drogas Apreendidas</label>
+        <p class="descricao">Classificação da substância apreendida</p>
+        <select id="tipo_droga">
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option value="maconha">Maconha</option>
+            <option value="cocaina">Cocaína</option>
+            <option value="crack">Crack</option>
+            <option value="ecstasy">Ecstasy</option>
+            <option value="nenhuma">Nenhuma Apreensão</option>
+        </select>
+      </div>
+      
+      <div class="campo flex space-x-4">
+        <div class="w-1/2">
+            <label for="quantidade_droga">Quantidade</label>
+            <p class="descricao">Valor numérico da apreensão</p>
+            <input type="number" id="quantidade_droga" placeholder="Ex: 20">
+        </div>
+        <div class="w-1/2">
+            <label for="unidade_droga">Unidade</label>
+            <p class="descricao">Unidade de medida</p>
+            <select id="unidade_droga">
+                <option value="g">Grama (g)</option>
+                <option value="kg">Quilograma (kg)</option>
+                <option value="unidades">Unidades (Comprimidos)</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="dinheiro">Dinheiro Apreendido (Valor em R$)</label>
+        <p class="descricao">Valor total em Real</p>
+        <input type="text" id="dinheiro" placeholder="Ex: 500.00 (Formato: 0.00)">
+      </div>
+
+      <div class="campo">
+        <label for="veiculo_status">Veículo Envolvido (Status)</label>
+        <p class="descricao">Situação legal do veículo no local</p>
+        <select id="veiculo_status">
+            <option value="" disabled selected>Selecione o status</option>
+            <option value="sem_restricao">Sem Restrição</option>
+            <option value="roubado">Roubado/Furtado</option>
+            <option value="administrativo">Irregularidade Administrativa</option>
+            <option value="nao_envolvido">Nenhum Veículo Envolvido</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="historico">Histórico/Narrativa Técnica</label>
+        <p class="descricao">Relato detalhado e cronológico da ocorrência (Campo essencialmente de texto)</p>
+        <textarea id="historico" placeholder="Descreva os fatos de forma detalhada, desde o acionamento até a conclusão..."></textarea>
+      </div>
+      
+      <!-- Botões de Navegação -->
+      <div class="button-group">
+        <a href="etapa1.html" class="nav-button back-button">Voltar para Etapa 1</a>
+        <a href="etapa3.html" class="nav-button next-button">Avançar para Etapa 3</a>
+      </div>
+    </div>
+
+    <div class="rodape">
+      <p>Relatório de Ocorrência Policial — Sistema Integrado</p>
+    </div>
+  </div>
+
+</body>
+</html>
