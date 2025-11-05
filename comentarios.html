@@ -4,47 +4,88 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Comentários Internos</title>
+  <!-- Adiciona o Tailwind CSS CDN para estilização moderna e responsiva -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
-    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 20px; max-width: 500px; margin: auto; }
-    h3 { color: #003399; }
-    textarea, button { width: 100%; margin-top: 10px; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
-    button { background: #003399; color: #fff; border: none; cursor: pointer; }
-    ul { margin-top: 15px; padding-left: 20px; }
-    .menu { margin-top: 20px; text-align: center; }
-    .menu a { margin: 0 10px; text-decoration: none; color: #003399; font-weight: bold; }
-    
+    /* Configurações básicas de fonte, usando Inter (padrão do Tailwind) */
+    body {
+      font-family: 'Inter', sans-serif;
+    }
   </style>
 </head>
-<body>
-  <div class="card">
-    <h3>Comentários Internos</h3>
-    <textarea id="comentario" placeholder="Digite um comentário..."></textarea>
-    <button onclick="adicionarComentario()">Enviar</button>
-    <ul id="lista-comentarios">
-      <li>João: Precisa revisar o relatório.</li>
-      <li>Maria: Dados já atualizados.</li>
-    </ul>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center p-4">
+  
+  <!-- Cartão de Comentários -->
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 mt-10">
+    <h3 class="text-3xl font-extrabold text-blue-700 mb-6 border-b pb-3">
+      Comentários Internos
+    </h3>
+    
+    <!-- Formulário de Comentário -->
+    <div class="space-y-4">
+      <textarea 
+        id="comentario" 
+        placeholder="Digite um comentário..."
+        rows="3"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150 resize-none shadow-sm"
+      ></textarea>
+      <button 
+        onclick="adicionarComentario()"
+        class="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 shadow-md transform hover:scale-[1.01] active:scale-[0.99]"
+      >
+        Enviar Comentário
+      </button>
+    </div>
+
+    <!-- Lista de Comentários -->
+    <div class="mt-6 border-t pt-4">
+      <h4 class="text-lg font-semibold text-gray-700 mb-3">Histórico</h4>
+      <ul id="lista-comentarios" class="space-y-3 text-gray-800">
+        <li class="p-3 bg-blue-50 rounded-lg shadow-sm">
+          <span class="font-medium text-blue-800">João:</span> Precisa revisar o relatório.
+        </li>
+        <li class="p-3 bg-gray-100 rounded-lg shadow-sm">
+          <span class="font-medium text-gray-900">Maria:</span> Dados já atualizados.
+        </li>
+      </ul>
+    </div>
   </div>
 
-  <div class="menu">
-    <a href="estatisticas.html">Estatísticas</a>
-    <a href="etapa1.html">Etapa 1</a>
-    <a href="etapa2.html">Etapa 2</a>
-    <a href="etapa3.html">Etapa 3</a>
-     <a  href="./portal-cidade.html"><button  type="button" class="back-button" onclick="showUserTypeSelection()" id="back-button">Voltar</button></a>
+  <!-- Menu de Navegação -->
+  <div class="menu mt-8 flex flex-wrap justify-center gap-4">
+    
+    <!-- Botão Voltar -->
+    <a href="./portal-cidade.html" class="back-link">Voltar</a>
   </div>
+
+  <!-- Estilo do Menu (customizado para manter a clareza) -->
+  <style>
+    .menu-link {
+      @apply px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 transition duration-150 shadow-sm;
+    }
+    .back-link {
+      @apply px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-150 shadow-sm;
+    }
+  </style>
+
   <script>
     function adicionarComentario() {
-      const comentario = document.getElementById("comentario").value;
+      const comentarioInput = document.getElementById("comentario");
+      const comentario = comentarioInput.value;
       const lista = document.getElementById("lista-comentarios");
+
       if (comentario.trim() !== "") {
         const li = document.createElement("li");
-        li.textContent = "Você: " + comentario;
+        // Adiciona classes Tailwind para o novo comentário
+        li.className = "p-3 bg-green-50 rounded-lg shadow-sm"; 
+        li.innerHTML = `<span class="font-medium text-green-800">Você:</span> ${comentario}`;
         lista.appendChild(li);
-        document.getElementById("comentario").value = "";
+        comentarioInput.value = "";
       }
     }
+    
+    // Opcional: Removendo a função showUserTypeSelection que não estava definida
+    // function showUserTypeSelection() { /* Função que não existe mais */ }
   </script>
 </body>
 </html>
